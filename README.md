@@ -2,7 +2,7 @@
 
 Must have Node.js (includes npm): https://nodejs.org/en/download/
 
-Alex will invite you to the MongoDB database. Or for your testing you can just go make your own and replace the link in backend/config.js
+Alex will invite you to the MongoDB database (not needed until we start using the database). Or for your testing you can just go make your own and replace the link in backend/config.js
 
 use the command "npm install" in both the ./backend and the ./frontend/client directories to install the dependencies. We will be using get and post requests to communicate between the frontend/backend.
 
