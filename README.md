@@ -25,3 +25,4 @@
 ### Additional Info
 - We will be using GET and POST requests to communicate between the frontend and backend.
 - To find your current IP address: [What Is My IP Address](https://whatismyipaddress.com/)
+- Initial MERN setup based off this tutorial: https://www.youtube.com/watch?v=-42K44A1oMA
