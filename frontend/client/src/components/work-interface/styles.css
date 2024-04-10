@@ -1,0 +1,147 @@
+
+.work-container {
+    display: flex;
+    height: 100vh;
+    background-color: #F5F5F5;
+    font-family: sans-serif;
+
+}
+
+.work-details-info {
+    width: 22%;
+    color: rgb(69, 69, 69);
+}
+
+.past-doc-container {
+    margin-top: 15rem;
+    margin-left: 23px;
+}
+
+.work-upload-contanier {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-image {
+    width: 25px;
+    height: 25px;
+    margin-right: 30px;
+}
+
+.dash {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: gray;
+    margin-top: 25%;
+    position: absolute;
+}
+
+.work-details-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.add-contanier {
+    display: flex;
+    justify-content: right;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.user-container {
+    margin-bottom: 1.3rem;
+    margin-left: 20px;
+    font-size: 1.2rem;
+}
+
+.logout-container {
+    background-color: rgba(128, 128, 128, 0.704);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px;
+    width: 80%;
+    margin-left: 30px;
+    margin-bottom: 0.8rem;
+    color: white;
+    cursor: pointer;
+}
+
+.work-upload-contanier h3 {
+    margin-top: 10px;
+    color: #4E7FBE;
+    font-family: "Arvo", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.input-container {
+    margin-bottom: 20px;
+    min-width: 38rem;
+    min-height: 3.3rem;
+    border-radius: 8px;
+    border: 0.5px solid #3C0D0D;
+    padding: 0 30px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-img {
+    width: 25px;
+    height: 25px;
+}
+
+.user-acc {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+
+.user-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px black;
+    margin-right: 1.4rem;
+    cursor: pointer;
+}
+
+.input-container input{
+    border: none;
+    font-size: 16px;
+    min-width: 30rem;
+    min-height: 3.3rem;
+    transition: border-color 0.3s ease; 
+}
+
+input[type="text"]:focus {
+  outline: none; 
+  border-color: transparent; 
+}
+
+.document-container {
+    width: 13rem;
+    height: 3rem;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, 0.704);
+    margin-top: 15px;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.note {
+    font-size: small;
+    margin-bottom: 39rem;
+    color: gray;
+    font-weight: 600;
+}
