@@ -8,15 +8,16 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as OAuth2Strategy } from 'passport-google-oauth2';
 import PostMessage from './models/postMessage.js';
+import mkdirp from 'mkdirp';
 
-// app.use('/posts', postRoutes);
+//app.use('/posts', postRoutes);
 
 const clientID = '524790173843-7igv57lb328dc9pqi5robpa3kq1pja7o.apps.googleusercontent.com';
 const clientSecret = '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';
 
 app.use(cors({
     origin: 'http://localhost:3000',
-    method: "GET, POST, PUT, DELETE",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
@@ -57,7 +58,7 @@ passport.use(
             }
             return done(null, user)
         } catch(error) {
-            return done(error, null)
+            return done(error.response.data, null)
         }
     }
     )
@@ -71,7 +72,7 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-//initial google oauth login
+//initial google auth login
 app.get("/auth/google", passport.authenticate("google", {scope:["profile", "email"]}))
 
 app.get("/auth/google/callback", passport.authenticate('google', {
@@ -79,9 +80,9 @@ app.get("/auth/google/callback", passport.authenticate('google', {
     failureRedirect: 'http://localhost:3000/login'
 }))
 
-app.get('/login/sucess', async(req, res) => {
+app.get('/login/success', async(req, res) => {
     console.log("req", req.user);
-
+    
     if(req.user) {
         res.status(200).json({message: "user Login", user:req.user})
     } else {
@@ -107,38 +108,52 @@ const PORT = process.env.PORT || 4000;
 
 mongoose.connect(CONNECTION_URL, {})
     .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
-    .catch((error) => console.log(error.message));
+    .catch((error) => console.log("MongoDB did not connect correct"));
 
 
 //https://www.mongodb.com/cloud/atlas
 
 // multer: handling multipart/form-data, which is primarily used for uploading files.
 
+//The files were not being uploaded due to the directory /files not working properly 
 const storage = multer.diskStorage({ 
-    destination: function (req, file, cb) {
-      cb(null, './files')
+    destination: (req, file, cb) => {
+        const directory = './files';
+        mkdirp(directory, (err) => {
+            if (err) {
+                console.error('Error creating directory:', err);
+                cb(err);
+            } else {
+                cb(null, directory);
+            }
+        });
     },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() 
-      cb(null, uniqueSuffix + file.originalname)
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now();
+        cb(null, `${uniqueSuffix}-${file.originalname}`);
     },
 });
   
 const postMessage = mongoose.model("PostMessage");
 const upload = multer({ storage: storage })
 
-app.post("/posts", upload.single('file'), async(req, res) => {
+
+app.post('/posts', upload.single('file'), async(req, res) => {
     console.log(req.file);
     const title = req.body.title;
     const fileName = req.file.filename;
     try {
+        console.log("Creating Post Message");
         await PostMessage.create({
             title: title,
             file: fileName,
+            
         })
+        console.log(title,fileName);
         res.send({status: "ok"});
     } catch (error) {
-        res.json({status: error});
+        console.log("No posts made");
+        res.json({status: error.response.data});
     } 
 });
 
@@ -148,7 +163,7 @@ app.get("/get-files", async(req, res) => {
             res.send({status: "ok", data: data});
         });
     } catch(error) {
-         
+        console.log("We can't get files");
     }
 });
 

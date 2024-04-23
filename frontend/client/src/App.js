@@ -8,15 +8,16 @@ import Navbar from "./pages/Navbar";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function App() {
 
+function App() {
   const [userData, setUserData] = useState(null);
 
   const navigate = useNavigate();
 
+  //THERE IS AN ERROR HERE: IF USER REFRESHES INSTEAD OF LOGING IN FROM THE START IT WONT BE ABLE TO GET A USER
   const getUser = async () => {
     try {
-        const response = await axios.get("http://localhost:4000/login/sucess", { withCredentials: true });
+        const response = await axios.get("http://localhost:4000/login/success", { withCredentials: true });
         console.log("response",response)
         if (response.data.user) {
           setUserData(response.data.user);
@@ -24,7 +25,7 @@ function App() {
           setUserData(null);
         }
     } catch (error) {
-      console.log("error", error);
+      console.log("There is something wrong");
     }
 }
 

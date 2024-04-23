@@ -17,39 +17,47 @@ function Homepage(props) {
 
     useEffect(() => {
         getPdf();
-    }, []);
+    }, [])
 
     const toggleNavBar = () => {
         setIsNavBarVisible(!isNavBarVisible);
-    };
+    }
      
     const getPdf = async() => {
+        console.log('Getting PDF');
         const result = await axios.get("http://localhost:4000/get-files");
         console.log(result.data.data);
         setAllImage(result.data.data);
     }
 
     const handleSubmit = async(e) => {
+        console.log('Handling Submit');
         e.preventDefault();
         const formData = new FormData();
         formData.append("title", title);
         formData.append('file', file);
         console.log(title, file);
 
-        const result = await axios.post("http://localhost:4000/posts", 
-            formData, 
-            {
-                headers: {"Content-Type": "multipart/form-data"}     
+        try {
+            const result = await axios.post(
+                "http://localhost:4000/posts",
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" }
+                }
+            );
+            console.log(result);
+            if (result.data.status === 'ok') {
+                alert("Upload Successfully!");
+                getPdf();
+                setTitle('');
+                setFile(null);
             }
-        );
-        console.log(result);
-        if (result.data.status === 'ok') {
-            alert("Upload Successfully!");
-            getPdf();
-            setTitle('');
-            setFile(null);
+        } catch (error) {
+            console.log(error.response.data);
+            // Handle the error (e.g., display an error message to the user)
         }
-    };
+    }
 
     return(
         <div className="work-container"> 
