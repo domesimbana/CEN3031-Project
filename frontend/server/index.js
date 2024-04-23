@@ -8,7 +8,8 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as OAuth2Strategy } from 'passport-google-oauth2';
 import PostMessage from './models/postMessage.js';
-import mkdirp from 'mkdirp';
+import fs from 'fs';
+import {mkdirp} from 'mkdirp';
 
 //app.use('/posts', postRoutes);
 
@@ -116,23 +117,24 @@ mongoose.connect(CONNECTION_URL, {})
 // multer: handling multipart/form-data, which is primarily used for uploading files.
 
 //The files were not being uploaded due to the directory /files not working properly 
-const storage = multer.diskStorage({ 
+const directory = './files';
+// Ensure the directory exists, create it if it doesn't
+try {
+    mkdirp.sync(directory);
+    console.log('Directory created successfully');
+  } catch (err) {
+    console.error('Error creating directory:', err);
+  }
+  
+  const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const directory = './files';
-        mkdirp(directory, (err) => {
-            if (err) {
-                console.error('Error creating directory:', err);
-                cb(err);
-            } else {
-                cb(null, directory);
-            }
-        });
+      cb(null, directory);
     },
     filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now();
-        cb(null, `${uniqueSuffix}-${file.originalname}`);
+      const uniqueSuffix = Date.now();
+      cb(null, `${uniqueSuffix}-${file.originalname}`);
     },
-});
+  });
   
 const postMessage = mongoose.model("PostMessage");
 const upload = multer({ storage: storage })

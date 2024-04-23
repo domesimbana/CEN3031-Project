@@ -1,6 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Document, Page } from "react-pdf";
-
 
 function PdfComp(props) {
   const [numPages, setNumPages] = useState();
@@ -10,17 +9,22 @@ function PdfComp(props) {
     setNumPages(numPages);
   }
 
+  function openPdfInNewTab() {
+    window.open(props.pdfFile, "_blank");
+  }
+
   return (
     <div className="pdf-div">
-        <p>
-          Page {pageNumber} of {numPages}
-        </p>
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
       <Document file={props.pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
         {Array.apply(null, Array(numPages))
           .map((x, i) => i + 1)
           .map((page) => {
             return (
               <Page
+                key={page}
                 pageNumber={page}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
@@ -28,8 +32,9 @@ function PdfComp(props) {
             );
           })}
       </Document>
-   
+      <button onClick={openPdfInNewTab}>Open PDF</button>
     </div>
   );
 }
+
 export default PdfComp;

@@ -47,6 +47,7 @@ function Homepage(props) {
                 }
             );
             console.log(result);
+            console.log(result.data.status);
             if (result.data.status === 'ok') {
                 alert("Upload Successfully!");
                 getPdf();
@@ -54,7 +55,7 @@ function Homepage(props) {
                 setFile(null);
             }
         } catch (error) {
-            console.log(error.response.data);
+            console.log("Not uploaded");
             // Handle the error (e.g., display an error message to the user)
         }
     }
