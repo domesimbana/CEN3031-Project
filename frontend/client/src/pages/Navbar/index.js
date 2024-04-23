@@ -47,8 +47,8 @@ function Navbar(props) {
     }
 
     const showPdf = (pdf) => {
-        // window.open(`http://localhost:4000/posts/${pdf}`, "_blank", "noreferrer");
-        setPdfFile(`http://localhost:4000/posts/${pdf}`);
+        window.open(`http://localhost:4000/files/${pdf}`, "_blank", "noreferrer");
+        //setPdfFile(`http://localhost:4000/files/${pdf}`);
     }
 
     return ( 
@@ -85,12 +85,12 @@ function Navbar(props) {
                                     ? "" 
                                     : props.allImage.map((data) => {
                                         return (
-                                            // <NavLink to='/>
+                                            //<NavLink key={data.id} to="#" onClick={() => setPdfFile(`/files/${data.file}`)}>
                                             <div className="history-document">
                                                 <h6>Title: {data.title}</h6>
                                                 <button onClick={() => showPdf(data.file)}>Show PDF</button>     
                                             </div>
-                                            // </NavLink>
+                                            //</NavLink>
                                         )
                                     })
                             }            

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [userData, setUserData] = useState(null);
+  const [allImage,setAllImage]=useState(null);
 
   const navigate = useNavigate();
 

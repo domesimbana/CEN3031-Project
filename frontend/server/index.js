@@ -22,6 +22,10 @@ app.use(cors({
     credentials: true
 }));
 
+//This will allow our files to be accessible anywhere
+//make sure its running on the users side not ours
+app.use("/files",express.static("files"))
+
 app.use(express.json());
 app.use('/posts', express.static("files"));
 
@@ -135,7 +139,7 @@ try {
       cb(null, `${uniqueSuffix}-${file.originalname}`);
     },
   });
-  
+
 const postMessage = mongoose.model("PostMessage");
 const upload = multer({ storage: storage })
 
@@ -159,6 +163,7 @@ app.post('/posts', upload.single('file'), async(req, res) => {
     } 
 });
 
+//We get the files 
 app.get("/get-files", async(req, res) => {
     try {
         PostMessage.find({}).then((data) => {
