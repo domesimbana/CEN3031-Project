@@ -2,9 +2,8 @@ import { CgFileAdd } from "react-icons/cg";
 import { GoHistory } from "react-icons/go";
 import { BiSolidDownArrow, BiSolidRightArrow } from "react-icons/bi";
 import { MdOutlineLogout } from "react-icons/md";
-
 import React, { useEffect, useState } from 'react';
-import PdfComp from "../Document";
+import { Link } from 'react-router-dom';
 import './styles.css'
 import { NavLink } from "react-router-dom";
 import axios from "axios";
@@ -88,8 +87,12 @@ function Navbar(props) {
                                             //<NavLink key={data.id} to="#" onClick={() => setPdfFile(`/files/${data.file}`)}>
                                             <div className="history-document">
                                                 <h6>Title: {data.title}</h6>
-                                                <button onClick={() => showPdf(data.file)}>Show PDF</button>     
+                                                <button onClick={() => showPdf(data.file)}>Show PDF</button>  
+                                                <Link to="/document">
+                                                    <button>Chat with PDF</button>
+                                                </Link> 
                                             </div>
+                                            
                                             //</NavLink>
                                         )
                                     })

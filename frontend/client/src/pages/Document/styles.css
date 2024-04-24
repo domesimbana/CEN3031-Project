@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&display=swap');
+
+.work-container {
+    display: flex;
+    height: 100vh;
+    background-color: rgb(78, 127, 190);
+    font-family: sans-serif;
+}
+
+.dash {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #4E7FBE;
+    position: fixed;
+    top: 50%;
+}
+
+.left-dash {
+    color: white;
+}
+
+.work-details-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-contanier {
+    display: flex;
+    justify-content: right;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+
+.work-upload-contanier {
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background-color: rgb(246, 246, 246);
+    /* position: relative; */
+}
+
+.title-container {
+    text-align: center;
+    margin-top: -28px;
+}
+
+.text-note {
+    color: #4E7FBE;
+    font-family: 'Arvo', Courier, monospace;
+}
+
+.note {
+    font-size: small;
+    color: gray;
+    font-weight: 600;
+    margin: 5px;
+}
+
+.upload-file-container {
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.desc-note {
+    margin-top: 3rem;
+    text-align: center;
+    margin-right: 45%;
+    color: #4E7FBE;
+}
+
+.file-container {
+    height: 240px;
+    width: 720px;
+    margin: auto;
+    margin-top: 12px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: none;
+    padding-top: 7px;
+}
+
+.folder-icon {
+    font-size: 3rem;
+    color: #4E7FBE;
+    margin: 0.2rem;
+}
+
+.upload {
+    height: 190px;
+    width: 710px;
+    margin: auto;
+    border-radius: 8px;
+    background-color: #4e7fbe22;
+    border: 0.5px dashed #4E7FBE;
+}
+
+.icon {
+    font-size: 1.3rem;
+    color: white;
+}
+
+
+
+.button {
+    background-color: #4E7FBE;
+    color: white;
+    padding: 5px 30px;
+    border-radius: 6px;
+    border: none;
+    margin: 9px auto;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    position: relative;
+}
+
+input[type="file"]::file-selector-button {
+    width: 136px;
+    color: transparent;
+    margin-bottom: 5px;
+}
+ 
+/* Faked label styles and icon */
+input[type="file"]::before {
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    left: 16px;
+    height: 20px;
+    width: 20px;
+    content: "";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230964B0'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+}
+
+input[type="file"]::after {
+    position: absolute;
+    pointer-events: none;
+    top: 13px;
+    left: 45px;
+    color: #4E7FBE;
+    font-weight: 600;
+    content: "Upload File";
+}
+
+  /* file upload button */
+input[type="file"]::file-selector-button {
+    border-radius: 4px;
+    padding: 0 16px;
+    height: 40px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
+    transition: background-color 200ms;
+}
+  
+  /* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+    background-color: #f3f4f6;
+}
+  
+  /* file upload button active state */
+input[type="file"]::file-selector-button:active {
+    background-color: #e5e7eb;
+}
+
+
+.title-input {
+    border: none;
+    font-size: 16px;
+    width: 19rem;
+    min-height: 1.6rem;
+    transition: border-color 0.3s ease; 
+    border-radius: 5px;
+    padding-left: 0.8rem;
+    margin-top: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
+.upload-img {
+    width: 25px;
+    height: 25px;
+}
+
+
+.chatbox-container {
+    width: 99%;
+    border: none;
+    border-radius: 5px;
+    height: 77.5vh;
+    background-color: white;
+    margin: auto;
+    margin-top: -25px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+
+
+.pdf-title {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    padding: 5px;
+}
+
+.pdf-title h4 {
+    color: #4E7FBE;
+}
+
+.chat-container {
+    width: 90%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.user-img {
+    border: solid;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}
+
+.content {
+    border: none;
+    border-radius: 8px;
+    width:fit-content;
+    height: fit-content;
+    padding: 8px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    background-color: rgb(246, 246, 246);
+}
+
+.content-ans {
+    background-color: #4e7fbe22;
+}
+.input-container {
+    width: 85%;
+    min-width: 38rem;
+    min-height: 3.3rem;
+    border-radius: 8px;
+    border: 0.5px solid #3C0D0D;
+    padding: 0 30px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 10px;
+    margin: 0 auto;
+    margin-left: 100px;
+}
+
+.input-container input{
+    border: none;
+    font-size: 16px;
+    min-width: 30rem;
+    min-height: 3.3rem;
+    transition: border-color 0.3s ease; 
+}
+
+input[type="text"]:focus {
+  outline: none; 
+  border-color: transparent; 
+}
+
+.upload-img {
+    color: hsl(214, 46%, 53%);
+}
+
+@media only screen and (max-width: 1100px) {
+    .input-container {
+        width: 10%;
+        background-color: #4E7FBE;
+    }
+}
+
+/*Output Parsed Text*/
+.output-box {
+    border: 1px solid  hsl(214, 46%, 53%); 
+    border-radius: 8px; 
+    background-color: #fff; 
+    padding: 1rem; 
+    margin-top: 1.5rem; 
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.15) 0px 0px 0px 1px; /* Subtle shadow effect */
+  }
+  .output-title {
+    color: #4E7FBE;
+    font-family: 'Arvo', Courier, monospace;
+  }
+  .output-content {
+    color: #4E7FBE;
+    font-family: 'Arvo', Courier, monospace;
+  }
