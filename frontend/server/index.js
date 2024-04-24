@@ -8,8 +8,9 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as OAuth2Strategy } from 'passport-google-oauth2';
 import PostMessage from './models/postMessage.js';
-import fs from 'fs';
 import {mkdirp} from 'mkdirp';
+import { exec } from 'child_process';
+
 
 //app.use('/posts', postRoutes);
 
@@ -172,5 +173,22 @@ app.get("/get-files", async(req, res) => {
     } catch(error) {
         console.log("We can't get files");
     }
+});
+
+app.post('/extract-text', (req, res) => {
+    const { pdfPath } = req.body;
+    console.log("Trying to acces this pdf " + pdfPath);
+    exec(`python pdfParser.py ${pdfPath}`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        if(stderr){
+            console.error(`stderr: ${stderr}`);
+        }
+        res.json({ text: stdout });
+    });
 });
 
