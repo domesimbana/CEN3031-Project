@@ -195,7 +195,7 @@ input[type="file"]::file-selector-button:active {
     width: 99%;
     border: none;
     border-radius: 5px;
-    height: 77.5vh;
+    height: 85vh;
     background-color: white;
     margin: auto;
     margin-top: -25px;
@@ -221,41 +221,65 @@ input[type="file"]::file-selector-button:active {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
+    max-height: 720px;
+    overflow-y: auto;
 }
 
-.container {
+.message-container {
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
 
-.user-img {
-    border: solid;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
+.message {
+    display: flex;
+    align-items: flex-start;
 }
 
-.content {
+.user-img {
+    border: solid;
+    border-radius: 100%;
+    border-width: 3px;
+    width: 50px;
+    height: 50px;
+}
+
+.content{
     border: none;
     border-radius: 8px;
     width:fit-content;
     height: fit-content;
-    padding: 8px;
+    padding: px;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     background-color: rgb(246, 246, 246);
 }
 
-.content-ans {
+.content.user {
+    border: none;
+    border-radius: 8px;
+    width:fit-content;
+    height: fit-content;
+    padding: px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    background-color: rgb(246, 246, 246);
+}
+
+.content.llm {
+    border: none;
+    border-radius: 8px;
+    width:fit-content;
+    height: fit-content;
+    padding: px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     background-color: #4e7fbe22;
 }
+
 .input-container {
     width: 85%;
     min-width: 38rem;
     min-height: 3.3rem;
     border-radius: 8px;
-    border: 0.5px solid #3C0D0D;
+    border: 0px solid #3C0D0D;
     padding: 0 30px; 
     display: flex;
     justify-content: space-between;
@@ -266,13 +290,28 @@ input[type="file"]::file-selector-button:active {
     margin-left: 100px;
 }
 
-.input-container input{
+/* .input-container input{
     border: none;
     font-size: 16px;
     min-width: 30rem;
     min-height: 3.3rem;
     transition: border-color 0.3s ease; 
-}
+} */
+
+.input-container textarea {
+    resize: none; /* Disable resizing */
+    width: calc(100% - 40px); /* Adjust as needed */
+    height: auto;
+    min-height: 120px; /* Adjust as needed */
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #2d549e;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    max-height: 100px;  
+  }
 
 input[type="text"]:focus {
   outline: none; 
