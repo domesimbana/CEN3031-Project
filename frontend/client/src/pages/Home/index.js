@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import Documents from "../Document";
+import { useHistory } from 'react-router-dom';
+import { BiSolidSend } from 'react-icons/bi';
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { HiFolderAdd } from "react-icons/hi";
 import axios from "axios";
@@ -98,34 +100,7 @@ function Homepage(props) {
                             </button>
                         </form>
                     </div>
-                </div>
-                {/* <div className="chatbox-container">
-                    <div className='pdf-title'>
-                        <h4>PDF Title</h4>
-                    </div>
-                    <div className='chat-container'>
-                        <div className="container">
-                            <img src={""} 
-                                className='user-img'
-                                    alt="MT"
-                            />
-                            <span className='content'>Name of file uploaded</span>
-                        </div>
-                        <div className="container">
-                            <img src={""} 
-                                    className='user-img'
-                                        alt="DOC"
-                                />
-                            <span className='content content-ans'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, culpa exercitationem quae recusandae aperiam error non aut molestias id laboriosam, quia harum blanditiis quos? Doloremque accusamus laudantium quibusdam quae hic!</span>
-                        </div>
-                    </div>
-                    <div className="input-container">
-                        <input  type="text" 
-                                placeholder="Send a message"
-                        />
-                        <BiSolidSend className="upload-img"/>
-                    </div>
-                </div> */}
+                </div> 
             </div>
         </div>
     );

@@ -42,7 +42,7 @@ useEffect(() => {
         <Route path='/' element={userData ? <Navigate to='/home' /> : <Navigate to='/login' />} />
         <Route path='/login' element={<LogIn />} />
         <Route path='/home' element={<Homepage />} />
-
+        <Route path='/document' element={<PdfComp />} />
           {/* <Route path='/*' element={<Error />} /> */}
           {/* <Route path='/' element={<Homepage userAcc={user} userSO={setUser} id="signInDiv"  />} />
           <Route path='/' element={<Homepage userAcc={user} userSO={setUser} id="signInDiv"  />} /> */}  

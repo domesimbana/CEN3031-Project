@@ -1,38 +1,45 @@
-import React, { useState } from "react";
-import { Document, Page } from "react-pdf";
+import React from "react";
+import { BiSolidSend } from 'react-icons/bi';
+import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { HiFolderAdd } from "react-icons/hi";
 
 function PdfComp(props) {
-  const [numPages, setNumPages] = useState();
-  const [pageNumber, setPageNumber] = useState(1);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
-
-  function openPdfInNewTab() {
-    window.open(props.pdfFile, "_blank");
-  }
-
   return (
-    <div className="pdf-div">
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
-      <Document file={props.pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
-        {Array.apply(null, Array(numPages))
-          .map((x, i) => i + 1)
-          .map((page) => {
-            return (
-              <Page
-                key={page}
-                pageNumber={page}
-                renderTextLayer={false}
-                renderAnnotationLayer={false}
-              />
-            );
-          })}
-      </Document>
-      <button onClick={openPdfInNewTab}>Open PDF</button>
+    <div>
+      <div className='title-container'>
+        <h2 className='text-note'>DocIQ</h2>
+        <p className='note'>DocIQ is not perfect true. Take a moment to verify pertinent data.</p>
+      </div>
+      <div className="chatbox-container">
+        <div className='pdf-title'>
+          <h4>PDF Title</h4>
+        </div>
+        <div className='chat-container'>
+          <div className="container">
+            <img
+              src={""}
+              className='user-img'
+              alt="MT"
+            />
+            <span className='content'>Name of file uploaded</span>
+          </div>
+          <div className="container">
+            <img
+              src={""}
+              className='user-img'
+              alt="DOC"
+            />
+            <span className='content content-ans'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, culpa exercitationem quae recusandae aperiam error non aut molestias id laboriosam, quia harum blanditiis quos? Doloremque accusamus laudantium quibusdam quae hic!</span>
+          </div>
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Send a message"
+          />
+          <BiSolidSend className="upload-img" />
+        </div>
+      </div>
     </div>
   );
 }
