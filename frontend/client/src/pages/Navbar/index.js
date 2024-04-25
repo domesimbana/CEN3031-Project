@@ -47,7 +47,7 @@ function Navbar(props) {
 
     const showPdf = (pdf) => {
         window.open(`http://localhost:4000/files/${pdf}`, "_blank", "noreferrer");
-        //setPdfFile(`http://localhost:4000/files/${pdf}`);
+        //setPdfFile(`/document?file=${pdf}`);
     }
 
     return ( 
@@ -88,7 +88,7 @@ function Navbar(props) {
                                             <div className="history-document">
                                                 <h6>Title: {data.title}</h6>
                                                 <button onClick={() => showPdf(data.file)}>Show PDF</button>  
-                                                <Link to="/document">
+                                                <Link to={`/document?file=${data.file}`}>
                                                     <button>Chat with PDF</button>
                                                 </Link> 
                                             </div>

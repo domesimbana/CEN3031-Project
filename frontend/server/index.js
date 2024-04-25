@@ -109,7 +109,7 @@ app.get('/logout', (req,res,next) => {
 // }) ;
 
 // Connect to the database mongodb+srv://group113:TXz9ve2xGMZRnYap@cenproject.bap9cnf.mongodb.net/
-const CONNECTION_URL = 'mongodb+srv://test:kCL9pd1ZuFzQ4po1@dociq-mern.nk80uwr.mongodb.net/?retryWrites=true&w=majority'
+const CONNECTION_URL = 'mongodb://0.0.0.0:27017/'
 const PORT = process.env.PORT || 4000;
 
 mongoose.connect(CONNECTION_URL, {})
