@@ -10,6 +10,7 @@ import { Strategy as OAuth2Strategy } from 'passport-google-oauth2';
 import PostMessage from './models/postMessage.js';
 import {mkdirp} from 'mkdirp';
 import { exec } from 'child_process';
+import pdfParse from "pdf-parse";
 
 
 //app.use('/posts', postRoutes);
@@ -109,7 +110,8 @@ app.get('/logout', (req,res,next) => {
 // }) ;
 
 // Connect to the database mongodb+srv://group113:TXz9ve2xGMZRnYap@cenproject.bap9cnf.mongodb.net/
-const CONNECTION_URL = 'mongodb://0.0.0.0:27017/'
+// mongodb+srv://test:kCL9pd1ZuFzQ4po1@dociq-mern.nk80uwr.mongodb.net/?retryWrites=true&w=majority
+const CONNECTION_URL = 'mongodb+srv://test:kCL9pd1ZuFzQ4po1@dociq-mern.nk80uwr.mongodb.net/?retryWrites=true&w=majority'
 const PORT = process.env.PORT || 4000;
 
 mongoose.connect(CONNECTION_URL, {})
@@ -192,3 +194,55 @@ app.post('/extract-text', (req, res) => {
     });
 });
 
+// // Parse PDF file for text
+// app.post("/parse-pdf", upload.single("pdfFile"), async (req, res) => {
+//     try {
+//         // Check if PDF file exists in request body
+//         if (!req.file) {
+//         return res.status(400).json({ error: "No PDF file uploaded" });
+//         }
+
+//         // Read the uploaded PDF file
+//         const pdfData = fs.readFileSync(req.file.path);
+
+//         // Parse PDF file
+//         const parsedData = await pdfParse(pdfData);
+
+//         // Extract text from parsed PDF
+//         const extractedText = parsedData.text;
+
+//         fs.unlinkSync(req.file.path);
+
+//         // Return extracted text
+//         res.json({ text: extractedText });
+//     } catch (error) {
+//         console.error("Error parsing PDF file:", error);
+//         res.status(500).json({ error: "Failed to parse PDF file" });
+//     }
+// });
+
+
+app.post('/parse-pdf', upload.single('pdfFile'), async (req, res) => {
+    try {
+      // Check if PDF file exists in request body
+      if (!req.file) {
+        return res.status(400).json({ error: 'No PDF file uploaded' });
+      }
+  
+      // Parse PDF file
+      const parsedData = await pdfParse(req.file.buffer);
+  
+      // Extract text from parsed PDF
+      const extractedText = parsedData.text;
+  
+      // Return extracted text
+      res.json({ text: extractedText });
+    } catch (error) {
+      console.error('Error parsing PDF file:', error);
+      res.status(500).json({ error: 'Failed to parse PDF file' });
+    }
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });

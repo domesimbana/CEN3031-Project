@@ -7,13 +7,67 @@ import "./styles.css";
 import OpenAI from "openai";
 
 function Document() {
-
   //Gets the info of the Documents
   const [searchParams] = useSearchParams();
   const file = searchParams.get('file'); 
   const [allImage, setAllImage] = useState([]);
-  const [userInput, setUserInput] = useState('');
-  const [chatMessages, setChatMessages] = useState([]);
+
+  const [pdfFile, setPdfFile] = useState(null);
+  const [extractedText, setExtractedText] = useState("");
+
+  const parsePdfForText = async () => {
+    try {
+      // Create a FormData object
+      const formData = new FormData();
+      // Append the PDF file to the FormData object
+      formData.append("pdfFile", pdfFile.file);
+
+      // Send the FormData object to the backend for parsing
+      const response = await axios.post("http://localhost:4000/parse-pdf", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data" // Set the content type to multipart/form-data
+        }
+      });
+
+      // Set the extracted text content in the state variable
+      setExtractedText(response.data.text);
+    } catch (error) {
+      console.error("Error parsing PDF for text:", error);
+    }
+  };
+  
+  useEffect(() => {
+    const fetchPdfFile = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/get-files");
+        const files = response.data.data;
+        // Assuming the first file is the desired PDF file
+        if (files.length > 0) {
+
+          let index = 1;
+          while (index < files.length) {
+            const item = files[index];
+            console.log(item.file);
+            if (item.file === file) {
+              pdfTitleInfo = item.title;
+              pdfFileInfo = item.file;
+              console.log(pdfFileInfo);
+              break;
+            }
+            index++;
+          }
+
+          const firstFile = files[index];
+          setPdfFile(firstFile);
+          parsePdfForText(firstFile);
+        }
+      } catch (error) {
+        console.error("Error fetching PDF file:", error);
+      }
+    };
+
+    fetchPdfFile();
+  }, []);
 
   //variables for file title and file 
   let pdfTitleInfo='Document';
@@ -31,26 +85,13 @@ function Document() {
     getPdf();
   }, []);
 
-  const handleInputChange = (event) => {
-    setUserInput(event.target.value);
-  };
-
-  const handleSubmitMessage = () => {
-    //error block if empty
-    if (userInput.trim() !== '') {
-      setChatMessages([...chatMessages, userInput]);
-      setUserInput(''); 
-    }
-  };
-
-
   // Function to find the specific file
   
   let index = 1;
   while (index < allImage.length) {
-  const item = allImage[index];
-  console.log(item.file);
-  if (item.file === file) {
+    const item = allImage[index];
+    console.log(item.file);
+    if (item.file === file) {
       pdfTitleInfo = item.title;
       pdfFileInfo = item.file;
       console.log(pdfFileInfo);
@@ -75,10 +116,12 @@ function Document() {
     if (messageInput.trim() !== "") {
       setMessageList([...messageList, { text: messageInput, type: "user" }]);
       
+      const contentToSend = "Use this text as context for your responses: " + extractedText + " My prompt for you to answer: " + messageInput;
+
       try {
         // openapi (GPT)
         const completion = await openai.chat.completions.create({
-          messages: [{role: "user", content: messageInput}],
+          messages: [{role: "user", content: contentToSend}],
           model: "gpt-3.5-turbo",
         });
         setMessageList([
@@ -100,7 +143,7 @@ function Document() {
     <div>
       <div className='title-container'>
         <h2 className='text-note'>DocIQ</h2>
-        <p className='note'>DocIQ: Ask me anything!</p>
+        <p className='note'>DocIQ: Get the answers you need</p>
       </div>
       <div className="chatbox-container">
         <div className='pdf-title'>

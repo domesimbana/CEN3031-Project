@@ -77,10 +77,10 @@ function Homepage(props) {
                 <div className='upload-file-container'>
                     <div className='title-container'>
                         <h2 className='text-note'>DocIQ</h2>
-                        <p className='note'>DocIQ is not perfect true. Take a moment to verify pertinent data.</p>
+                        <p className='note'>DocIQ: Get the answers you need</p>
                     </div>
 
-                    <h4 className='desc-note'>CHAT WITH DOCUMENT</h4>
+                    <h4 className='desc-note'>UPLOAD A DOCUMENT</h4>
 
                     <div className="file-container">
                         <form onSubmit={handleSubmit}>
