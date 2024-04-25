@@ -22,19 +22,22 @@ function PdfComp(props) {
     if (messageInput.trim() !== "") {
       setMessageList([...messageList, { text: messageInput, type: "user" }]);
       
-      //API for the LLM here:
       try {
         // openapi (GPT)
         const completion = await openai.chat.completions.create({
           messages: [{role: "user", content: messageInput}],
           model: "gpt-3.5-turbo",
         });
-        setMessageList([...messageList, { text: completion.choices[0].message["content"], type: "llm" }]);
-
+        setMessageList([
+          ...messageList, 
+          { text: messageInput, type: "user" }, // Keep user's question intact
+          { text: completion.choices[0].message["content"], type: "llm" } // Add LLM response
+        ]);
+  
       } catch (error) {
         console.error("Error with fetching LLM data: ", error);
       }
-
+  
       setMessageInput("");
     }
   }
