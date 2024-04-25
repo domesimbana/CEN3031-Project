@@ -1,3 +1,4 @@
+// Importing necessary icons and libraries
 import { CgFileAdd } from "react-icons/cg";
 import { GoHistory } from "react-icons/go";
 import { BiSolidDownArrow, BiSolidRightArrow } from "react-icons/bi";
@@ -8,12 +9,14 @@ import './styles.css'
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
-
+// Navbar component definition
 function Navbar(props) {
 
-    const [userData, setUserData] = useState({});
+    // State variables initialization
+    const [userData, setUserData] = useState({}); // Holds user data
     console.log("response", userData);
 
+    // Fetch user data from server
     const getUser = async() => {
         try {
             const response = await axios.get('http://localhost:4000/login/sucess', {
@@ -25,31 +28,37 @@ function Navbar(props) {
         }
     }
 
+    // Fetch user data when component mounts
     useEffect(() => {
         getUser()
     }, [])
     
-    const [isLogOut, setIsLogOut] = useState(false);
-    const [chatHistoryVisible, setChatHistoryVisible] = useState(false);
-    const [pdfFile, setPdfFile] = useState(null);
+    const [isLogOut, setIsLogOut] = useState(false); // Flag for logout state
+    const [chatHistoryVisible, setChatHistoryVisible] = useState(false); // Flag for chat history visibility
+    const [pdfFile, setPdfFile] = useState(null); // Holds PDF file
 
+    // Toggle logout state
     const toggleLogOut = () => {
         setIsLogOut(!isLogOut);
     };
 
+    // Toggle chat history visibility
     const toggleChat = () => {
         setChatHistoryVisible(!chatHistoryVisible);
     }
 
+    // Handle user sign out
     function handleSignOut(e) {
         window.open("http://localhost:4000/logout", "_self");
     }
 
+    // Show PDF file in a new tab
     const showPdf = (pdf) => {
         window.open(`http://localhost:4000/files/${pdf}`, "_blank", "noreferrer");
         //setPdfFile(`/document?file=${pdf}`);
     }
 
+    // Render Navbar component
     return ( 
         <div className="work-details-info">
             <div className='logo-container'>
@@ -117,10 +126,9 @@ function Navbar(props) {
                     {userData.displayName}
                 </div>
             </div>
-            
-
         </div>
     );
 }
 
+// Export Navbar component
 export default Navbar;

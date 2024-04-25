@@ -1,13 +1,17 @@
+// Importing necessary libraries and styles
 import React from 'react';
 import { useEffect } from 'react';
 import './styles.css';
 
+// LogIn component definition
 function LogIn() {
  
+    // Function to handle login with Google
     const loginWithGoogle = () => {
         window.open('http://localhost:4000/auth/google/callback', '_self');
     }
 
+    // Render LogIn component
     return(
         <div className="open-container">
             <div className="open-details-title">
@@ -43,4 +47,5 @@ function LogIn() {
     );
 }
 
+// Export LogIn component
 export default LogIn

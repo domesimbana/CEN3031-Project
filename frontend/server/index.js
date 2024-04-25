@@ -1,3 +1,4 @@
+// Import necessary modules and packages
 import { config } from 'dotenv';
 import express from 'express';
 const app = express();
@@ -8,39 +9,38 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as OAuth2Strategy } from 'passport-google-oauth2';
 import PostMessage from './models/postMessage.js';
-import {mkdirp} from 'mkdirp';
+import { mkdirp } from 'mkdirp';
 import { exec } from 'child_process';
 
-
-//app.use('/posts', postRoutes);
-
+// Define Google OAuth credentials
 const clientID = '524790173843-7igv57lb328dc9pqi5robpa3kq1pja7o.apps.googleusercontent.com';
 const clientSecret = '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';
 
+// Enable CORS with specific configurations
 app.use(cors({
     origin: 'http://localhost:3000',
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
-//This will allow our files to be accessible anywhere
-//make sure its running on the users side not ours
-app.use("/files",express.static("files"))
+// Serve static files from 'files' directory
+app.use("/files", express.static("files"));
 
+// Parse JSON bodies
 app.use(express.json());
-app.use('/posts', express.static("files"));
 
-// setup session
+// Setup session middleware
 app.use(session({
     secret: "Mt22507868",
     resave: false,
     saveUninitialized: true
-}))
+}));
 
-// setup passport
+// Initialize Passport and restore authentication state from session
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Configure Passport Google OAuth2 Strategy
 passport.use(
     new OAuth2Strategy({ 
         clientID: clientID,
@@ -66,26 +66,29 @@ passport.use(
         } catch(error) {
             return done(error.response.data, null)
         }
-    }
-    )
-)
+    })
+);
 
+// Serialize user into the session
 passport.serializeUser((user, done) => {
     done(null, user);
-})
+});
 
+// Deserialize user from the session
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-//initial google auth login
-app.get("/auth/google", passport.authenticate("google", {scope:["profile", "email"]}))
+// Redirect to Google OAuth login
+app.get("/auth/google", passport.authenticate("google", {scope:["profile", "email"]}));
 
+// Callback route for Google OAuth
 app.get("/auth/google/callback", passport.authenticate('google', {
     successRedirect: 'http://localhost:3000/home',
     failureRedirect: 'http://localhost:3000/login'
-}))
+}));
 
+// Route for successful login
 app.get('/login/success', async(req, res) => {
     console.log("req", req.user);
     
@@ -94,57 +97,49 @@ app.get('/login/success', async(req, res) => {
     } else {
         res.status(400).json({message: "Not Authorized"})
     }
-}) 
+});
 
+// Route for logout
 app.get('/logout', (req,res,next) => {
     req.logout(function(err) {
         if (err){return next(err)};
         res.redirect("http://localhost:3000/login");
     })
-})
+});
 
-// apis
-// app.get('/', async (req, res) => {
-//     res.status(200).json("server start");
-// }) ;
-
-// Connect to the database mongodb+srv://group113:TXz9ve2xGMZRnYap@cenproject.bap9cnf.mongodb.net/
-const CONNECTION_URL = 'mongodb://0.0.0.0:27017/'
+// MongoDB connection URL and port
+const CONNECTION_URL = 'mongodb://0.0.0.0:27017/';
 const PORT = process.env.PORT || 4000;
 
+// Connect to MongoDB and start server
 mongoose.connect(CONNECTION_URL, {})
     .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
     .catch((error) => console.log("MongoDB did not connect correct"));
 
-
-//https://www.mongodb.com/cloud/atlas
-
-// multer: handling multipart/form-data, which is primarily used for uploading files.
-
-//The files were not being uploaded due to the directory /files not working properly 
+// Ensure 'files' directory exists
 const directory = './files';
-// Ensure the directory exists, create it if it doesn't
 try {
     mkdirp.sync(directory);
     console.log('Directory created successfully');
-  } catch (err) {
+} catch (err) {
     console.error('Error creating directory:', err);
-  }
-  
-  const storage = multer.diskStorage({
+}
+
+// Multer configuration for file upload
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, directory);
+        cb(null, directory);
     },
     filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now();
-      cb(null, `${uniqueSuffix}-${file.originalname}`);
+        const uniqueSuffix = Date.now();
+        cb(null, `${uniqueSuffix}-${file.originalname}`);
     },
-  });
+});
 
-const postMessage = mongoose.model("PostMessage");
-const upload = multer({ storage: storage })
+// Create multer instance with storage configuration
+const upload = multer({ storage: storage });
 
-
+// Route for uploading posts with files
 app.post('/posts', upload.single('file'), async(req, res) => {
     console.log(req.file);
     const title = req.body.title;
@@ -154,9 +149,8 @@ app.post('/posts', upload.single('file'), async(req, res) => {
         await PostMessage.create({
             title: title,
             file: fileName,
-            
-        })
-        console.log(title,fileName);
+        });
+        console.log(title, fileName);
         res.send({status: "ok"});
     } catch (error) {
         console.log("No posts made");
@@ -164,7 +158,7 @@ app.post('/posts', upload.single('file'), async(req, res) => {
     } 
 });
 
-//We get the files 
+// Route for fetching files
 app.get("/get-files", async(req, res) => {
     try {
         PostMessage.find({}).then((data) => {
@@ -175,9 +169,10 @@ app.get("/get-files", async(req, res) => {
     }
 });
 
+// Route for extracting text from PDF
 app.post('/extract-text', (req, res) => {
     const { pdfPath } = req.body;
-    console.log("Trying to acces this pdf " + pdfPath);
+    console.log("Trying to access this PDF: " + pdfPath);
     exec(`python pdfParser.py ${pdfPath}`, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
@@ -191,4 +186,3 @@ app.post('/extract-text', (req, res) => {
         res.json({ text: stdout });
     });
 });
-

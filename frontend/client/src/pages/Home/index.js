@@ -1,5 +1,5 @@
+// Import necessary dependencies
 import React, { useEffect, useState } from 'react';
-// import Documents from "../Document";
 import { useHistory } from 'react-router-dom';
 import { BiSolidSend } from 'react-icons/bi';
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
@@ -9,22 +9,25 @@ import './styles.css'
 import Navbar from '../Navbar';
 import PdfComp from '../Document';
 
-
+// Homepage component definition
 function Homepage(props) {
-
+    // State variables
     const [isNavBarVisible, setIsNavBarVisible] = useState(false);
     const [title, setTitle] = useState('');
     const [file, setFile] = useState(null);
     const [allImage, setAllImage] = useState(null);
 
+    // useEffect to fetch PDFs on component mount
     useEffect(() => {
         getPdf();
     }, [])
 
+    // Function to toggle navbar visibility
     const toggleNavBar = () => {
         setIsNavBarVisible(!isNavBarVisible);
     }
      
+    // Function to fetch PDFs from server
     const getPdf = async() => {
         console.log('Getting PDF');
         const result = await axios.get("http://localhost:4000/get-files");
@@ -32,6 +35,7 @@ function Homepage(props) {
         setAllImage(result.data.data);
     }
 
+    // Function to handle form submission
     const handleSubmit = async(e) => {
         console.log('Handling Submit');
         e.preventDefault();
@@ -62,6 +66,7 @@ function Homepage(props) {
         }
     }
 
+    // Rendering JSX
     return(
         <div className="work-container"> 
             {!isNavBarVisible && (
@@ -106,4 +111,5 @@ function Homepage(props) {
     );
 }
 
+// Export the Homepage component
 export default Homepage;

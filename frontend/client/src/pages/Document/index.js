@@ -1,3 +1,4 @@
+// Importing necessary dependencies
 import React, { useState, useEffect } from "react";
 import { BiSolidSend } from 'react-icons/bi';
 import { useSearchParams } from 'react-router-dom';
@@ -8,20 +9,21 @@ import OpenAI from "openai";
 
 function Document() {
 
-  //Gets the info of the Documents
+  // Gets the search parameters
   const [searchParams] = useSearchParams();
   const file = searchParams.get('file'); 
-  const [allImage, setAllImage] = useState([]);
-  const [userInput, setUserInput] = useState('');
-  const [chatMessages, setChatMessages] = useState([]);
+  const [allImage, setAllImage] = useState([]); // State for storing all images
+  const [userInput, setUserInput] = useState(''); // State for user input
+  const [chatMessages, setChatMessages] = useState([]); // State for chat messages
 
-  //variables for file title and file 
+  // Variables for file title and file 
   let pdfTitleInfo='Document';
   let pdfFileInfo='Document';
   let indexSecond;
   let message;
 
   useEffect(() => {
+    // Fetches PDF files data from server
     const getPdf = async () => {
       const result = await axios.get("http://localhost:4000/get-files");
       console.log(result.data.data);
@@ -31,12 +33,14 @@ function Document() {
     getPdf();
   }, []);
 
+  // Handles input change in message textarea
   const handleInputChange = (event) => {
     setUserInput(event.target.value);
   };
 
+  // Handles submission of user message
   const handleSubmitMessage = () => {
-    //error block if empty
+    // Checks if user input is not empty
     if (userInput.trim() !== '') {
       setChatMessages([...chatMessages, userInput]);
       setUserInput(''); 
@@ -59,6 +63,7 @@ function Document() {
     index++;
   }
   
+  // Initializes OpenAI API
   const openai = new OpenAI({
     apiKey: 'sk-proj-yzKV5lfkyKuMAvqvAkhHT3BlbkFJdT9HmMQcfaTQUH37zoEL',
     dangerouslyAllowBrowser: true,
@@ -67,16 +72,18 @@ function Document() {
   const [messageInput, setMessageInput] = useState("");
   const [messageList, setMessageList] = useState([]);
 
+  // Handles change in message input
   const handleMessageChange = (e) => {
     setMessageInput(e.target.value);
   };
 
+  // Handles submission of message
   const handleSubmitButton = async () => {
     if (messageInput.trim() !== "") {
       setMessageList([...messageList, { text: messageInput, type: "user" }]);
       
       try {
-        // openapi (GPT)
+        // Fetches completion from OpenAI
         const completion = await openai.chat.completions.create({
           messages: [{role: "user", content: messageInput}],
           model: "gpt-3.5-turbo",
